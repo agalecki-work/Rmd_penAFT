@@ -1,0 +1,150 @@
+---
+title: "Read data for penAFT model"
+author: "Anonymous"
+date: "August 1st, 2022"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Read data for penAFT model}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r knitr-setup, include = FALSE, echo=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  results = "markup",
+  highlight = TRUE,
+  fig.width = 12, fig.height=8, fig.path='Figs/'
+)
+```
+
+```{r input-info, echo=FALSE}
+xlsxnm <- "datain/joslin_npx_scrambled_053122.xlsx"
+xlsxbs <- basename(xlsxnm)
+vignette_nm <- "41-penAFT-data"
+```
+
+# R session setup
+
+* This is `r vignette_nm` vignette for  `r xlsxbs` data.
+* Script requires that `r xlsxbs` is stored in `datain` subfolder.
+
+```{r Rsetup}
+rm (list=ls())
+sessionInfo()
+```
+
+# Create dtc dataset
+
+Data frame `dtc` created from `r xlsxbs` dataset.
+
+
+##  Preprocessing raw data
+
+^ Original raw data are stored in .dbf format
+* Vector `nms_raw` contains original variable names
+* Variable `CASE_CONTROL` renamed to `status`
+* For consistency variable names were converted to lower case
+
+```{r dat-raw}
+
+xlsx  <- readxl::read_excel(xlsxnm, sheet = "joslin_npx_scrambled", na = "", guess_max = 1000)
+dat_raw <- data.frame(xlsx)
+
+nms_raw <- names(dat_raw)
+nms_raw[nms_raw == "CASE_CONTROL"] <- "status"   # status = 1 (observed follow-up time), status = 0 (censored follow-up time)
+
+nms_low <- tolower(nms_raw)
+(names(dat_raw) <- nms_low)
+```
+
+Auxiliary lists of variable names in `dat_raw` are created.
+
+* `prt_vnms`: names of protein variables
+* `cln_vnms`: names of clinical variables
+
+
+```{r var-names-lists}
+(prt_vnms <- nms_low[which(nms_low == "kim1.npx") : length(nms_low)])
+length(prt_vnms)
+cln_vnms  <- c("sex",    "sbp_tl",       "dbp_tl", "ageonset_tl", "bmi_tl",
+              "age_tl", "b_hba1c_prc",  "du_acr", "bl_egfr")
+```
+
+* `dat_anl`: analytical dataset with a subset of variables.
+
+```{r dat-anl}
+select_vars <-  c("fu_time", "status", cln_vnms, prt_vnms)
+dat_anl <- dat_raw[,select_vars]
+class(dat_anl)
+dim(dat_anl)
+names(dat_anl)
+```
+
+Summarize  number of missing values in analytical dataset. This step may be helpful to identify variables
+with a large number of missing values and decide whether to keep it or not.   
+
+```{r missing-values}
+count_miss_vals <- sapply(dat_anl, function(x) sum(is.na(x)))
+count_miss_vals <- sort(count_miss_vals, decreasing = TRUE) 
+ncol(dat_anl)                          # Number of variables in analysis
+sum(count_miss_vals == 0)              # Number of variables without missing values  
+count_miss_vals[count_miss_vals  >  0] # Variables with missing values
+```
+
+
+```{r cln_vnms2}
+(cln_vnms2 <- cln_vnms[! cln_vnms %in% c("bmi_tl")])
+```
+
+Select subset of rows with *complete*  cases
+
+```{r dtc-cmplt-cases}
+
+select_vars <- c("fu_time", "status", cln_vnms2, prt_vnms)
+cmplt_cases <- complete.cases(dat_anl)
+dtc <- dat_raw[cmplt_cases, select_vars ]  # Data with complete cases
+nrow(dtc) # Number of rows with complete data
+```
+
+```{r save-dtc}}
+fnm <- "Rdata/41-penAFT-dtc.Rdata"
+save(dtc, file = fnm )
+```
+
+Data frame `dtc` with complete cases contains `r nrow(dtc)` rows  and `r ncol(dtc)` columns. 
+
+## Create X, Y and Xnew matrices
+
+
+Extract `X` and `Y` from `dtc` data frame with complete cases.
+
+```{r XYmtx}
+X     <- as.matrix(dtc[, X_vnms]) 
+logY  <- log(dtc[, "fu_time"]) 
+delta <- dtc[, "status"]      # status = 0 indicates censored observation 
+n <- length(logY)
+```
+
+* Xnew matrix extracted from X for illustration. Rows with _uncensored_ `time_fu` selected.
+
+
+```{r XY-new}
+sel_rows <- delta == 1
+Xnew <- X[sel_rows,]
+logYnew <- logY[sel_rows] 
+```
+
+Save matrices for model fitting.
+
+```{r save-mtx}}
+fnm <- "Rdata/41-penAFT-mtx.Rdata"
+save(X,logY, delta, file = fnm )
+
+fnm <- "Rdata/41-penAFT-mtxnew.Rdata"
+save(Xnew, logYnew, file = fnm )
+```
+
+
+
