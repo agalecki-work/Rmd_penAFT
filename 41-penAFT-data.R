@@ -57,7 +57,7 @@ count_miss_vals[count_miss_vals  >  0] # Variables with missing values
 ## ----remove-vars-miss-vals----------------------------------------------------
 dat_anl[, c("bmi_tl")] <- NULL
 (cln_vnms2 <- cln_vnms[! cln_vnms %in% c("bmi_tl")]) 
-X_vnms <- c(cln_vars2, prt_nms)
+X_vnms <- c(cln_vnms2, prt_vnms)
 
 
 ## ----dtc-cmplt-cases----------------------------------------------------------

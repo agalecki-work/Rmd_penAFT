@@ -101,7 +101,7 @@ Remove variables with excessive number of missing values
 ```{r remove-vars-miss-vals}
 dat_anl[, c("bmi_tl")] <- NULL
 (cln_vnms2 <- cln_vnms[! cln_vnms %in% c("bmi_tl")]) 
-X_vnms <- c(cln_vars2, prt_nms)
+X_vnms <- c(cln_vnms2, prt_vnms)
 ```
 
 ``` 
