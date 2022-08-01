@@ -13,7 +13,10 @@ rmarkdown::render("41-penAFT-data.Rmd", "all")
 knitr::purl("41-penAFT-data.Rmd", output = "41-penAFT-data.R")
 
 rmarkdown::render("42-penAFT-cva.Rmd", "all")
-knitr::purl("42-penAFT-cva.Rmd", output = "42-penAFT-fits.R")
+knitr::purl("42-penAFT-cva.Rmd", output = "42-penAFT-cva.R")
+
+rmarkdown::render("43-penAFT-opt.Rmd", "all")
+knitr::purl("43-penAFT-opt.Rmd", output = "43-penAFT-opt.R")
 
 rmarkdown::render("90-Rmd-test-chunks.Rmd", "all")
 knitr::purl("90-Rmd-test-chunks.Rmd", output = "90-Rmd-test-chunks.Rmd.R")
