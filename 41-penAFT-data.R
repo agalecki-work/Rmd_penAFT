@@ -1,4 +1,4 @@
-## ---- include = FALSE, echo=FALSE---------------------------------------------
+## ----knitr-setup, include = FALSE, echo=FALSE---------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -8,14 +8,19 @@ knitr::opts_chunk$set(
 )
 
 
+## ----input-info, echo=FALSE---------------------------------------------------
+xlsxnm <- "datain/joslin_npx_scrambled_053122.xlsx"
+xlsxbs <- basename(xlsxnm)
+vignette_nm <- "41-penAFT-data"
+
+
 ## ----Rsetup-------------------------------------------------------------------
 rm (list=ls())
-library(penAFT)
 sessionInfo()
 
 
 ## ----dat-raw------------------------------------------------------------------
-xlsxnm <- "datain/joslin_npx_scrambled_053122.xlsx"
+
 xlsx  <- readxl::read_excel(xlsxnm, sheet = "joslin_npx_scrambled", na = "", guess_max = 1000)
 dat_raw <- data.frame(xlsx)
 
@@ -31,11 +36,10 @@ nms_low <- tolower(nms_raw)
 length(prt_vnms)
 cln_vnms  <- c("sex",    "sbp_tl",       "dbp_tl", "ageonset_tl", "bmi_tl",
               "age_tl", "b_hba1c_prc",  "du_acr", "bl_egfr")
-X_vnms <- c(cln_vnms, prt_vnms)
 
 
 ## ----dat-anl------------------------------------------------------------------
-select_vars <-  c("fu_time", "status", X_vnms)
+select_vars <-  c("fu_time", "status", cln_vnms, prt_vnms)
 dat_anl <- dat_raw[,select_vars]
 class(dat_anl)
 dim(dat_anl)
@@ -44,13 +48,19 @@ names(dat_anl)
 
 ## ----missing-values-----------------------------------------------------------
 count_miss_vals <- sapply(dat_anl, function(x) sum(is.na(x)))
-count_miss_vals <- sort(count_miss_vals,decreasing = TRUE) 
+count_miss_vals <- sort(count_miss_vals, decreasing = TRUE) 
 ncol(dat_anl)                          # Number of variables in analysis
-length(count_miss_vals == 0)           # Number of variables without missing values  
+sum(count_miss_vals == 0)              # Number of variables without missing values  
 count_miss_vals[count_miss_vals  >  0] # Variables with missing values
 
 
+## ----cln_vnms2----------------------------------------------------------------
+(cln_vnms2 <- cln_vnms[! cln_vnms %in% c("bmi_tl")])
+
+
 ## ----dtc-cmplt-cases----------------------------------------------------------
+
+select_vars <- c("fu_time", "status", cln_vnms2, prt_vnms)
 cmplt_cases <- complete.cases(dat_anl)
 dtc <- dat_raw[cmplt_cases, select_vars ]  # Data with complete cases
 nrow(dtc) # Number of rows with complete data
