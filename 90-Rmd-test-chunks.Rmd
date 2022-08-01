@@ -65,7 +65,11 @@ The following output confirms that code chunk was not executed (as intended)
 exists("test_tangle")
 ```
 
+## Test figure
 
+```{r test-figure, echo = FALSE, fig.height=4, fig.width=8, dev ="svg"}
+plot(cars)
+```
 
 
 

@@ -32,3 +32,7 @@ exists("test_include")
 ## ----test-tangleout-check-----------------------------------------------------
 exists("test_tangle")
 
+
+## ----test-figure, echo = FALSE, fig.height=4, fig.width=8, dev ="svg"---------
+plot(cars)
+
