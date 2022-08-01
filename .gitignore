@@ -21,6 +21,12 @@ Rdata/*.Rdata
 # RStudio files
 .Rproj.user/
 
+# produced Figs
+Figs/*.png
+Figs/*.svg
+Figs/*.pdf
+Figs/*.jpg
+
 # produced vignettes
 *.html
 vignettes/*.html
