@@ -1,22 +1,25 @@
-## ----knitr-setup, include = FALSE, echo=FALSE---------------------------------
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  results = "markup",
-  highlight = TRUE,
-  fig.width = 12, fig.height=8, fig.path='Figs/'
-)
+## ----knitr-setup, include = FALSE, echo=FALSE, comment="#>", eval=FALSE-------
+#> knitr::opts_chunk$set(
+#>   collapse = TRUE,
+#>   results = "markup",
+#>   highlight = TRUE,
+#>   fig.width = 12, fig.height=8, fig.path='Figs/'
+#> )
+
+
+## ----Rsetup-ls, echo=FALSE----------------------------------------------------
+rm (list=ls())
 
 
 ## ----Rsetup-------------------------------------------------------------------
-rm (list=ls())
 sessionInfo()
 
 
 ## ----input-info, echo=FALSE---------------------------------------------------
 xlsxnm <- "datain/joslin_npx_scrambled_053122.xlsx"
 xlsxbs <- basename(xlsxnm)
-vignette_nm <- "41-penAFT-data"
+vignette_nm  <- "41-penAFT-data"
+vignette_Rmd <- paste(vignette_nm,".Rmd", sep = "")
 
 
 ## ----dat-raw------------------------------------------------------------------
@@ -73,7 +76,7 @@ save(dtc, file = fnm )
 
 
 ## ----XYmtx--------------------------------------------------------------------
-X     <- as.matrix(dtc[, X_vnms]) 
+X    <- as.matrix(dtc[, X_vnms]) 
 logY  <- log(dtc[, "fu_time"]) 
 delta <- dtc[, "status"]      # status = 0 indicates censored observation 
 n <- length(logY)

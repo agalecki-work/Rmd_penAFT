@@ -9,43 +9,48 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r knitr-setup, include = FALSE, echo=FALSE}
+
+```{r knitr-setup, include = FALSE, echo=FALSE, comment="#>", eval=FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>",
   results = "markup",
   highlight = TRUE,
   fig.width = 12, fig.height=8, fig.path='Figs/'
 )
 ```
+
 # R session setup
 
-```{r Rsetup}
+```{r Rsetup-ls, echo=FALSE}
 rm (list=ls())
+```
+
+```{r Rsetup}
 sessionInfo()
 ```
 
 ```{r input-info, echo=FALSE}
 xlsxnm <- "datain/joslin_npx_scrambled_053122.xlsx"
 xlsxbs <- basename(xlsxnm)
-vignette_nm <- "41-penAFT-data"
+vignette_nm  <- "41-penAFT-data"
+vignette_Rmd <- paste(vignette_nm,".Rmd", sep = "")
 ```
 
 
-* This is `r vignette_nm` vignette for  `r xlsxbs` data.
-* Rmd file  `r paste(vignette_nm,".Rmd", sep = "")` was executed at `r Sys.time()`
+* This is `r vignette_nm` vignette that illustrates how to process  `r xlsxbs` data.
+* Rmd file  `r vignette_Rmd` was executed at `r Sys.time()`
 * Script requires that `r xlsxbs` is stored in `datain` subfolder.
 
 
 
 # Create dtc dataset
 
-Data frame `dtc` created from `r xlsxbs` dataset.
+Data frame `dtc` with complete cases created from `r xlsxbs` dataset.
 
 
 ##  Preprocessing raw data
 
-^ Original raw data are stored in .dbf format
+* Original raw data are stored in .xlsx format
 * Vector `nms_raw` contains original variable names
 * Variable `CASE_CONTROL` renamed to `status`
 * For consistency variable names were converted to lower case
@@ -127,7 +132,7 @@ Data frame `dtc` with complete cases contains `r nrow(dtc)` rows  and `r ncol(dt
 Extract `X` and `Y` from `dtc` data frame with complete cases.
 
 ```{r XYmtx}
-X     <- as.matrix(dtc[, X_vnms]) 
+X    <- as.matrix(dtc[, X_vnms]) 
 logY  <- log(dtc[, "fu_time"]) 
 delta <- dtc[, "status"]      # status = 0 indicates censored observation 
 n <- length(logY)
