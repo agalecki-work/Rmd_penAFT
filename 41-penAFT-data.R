@@ -8,15 +8,15 @@ knitr::opts_chunk$set(
 )
 
 
+## ----Rsetup-------------------------------------------------------------------
+rm (list=ls())
+sessionInfo()
+
+
 ## ----input-info, echo=FALSE---------------------------------------------------
 xlsxnm <- "datain/joslin_npx_scrambled_053122.xlsx"
 xlsxbs <- basename(xlsxnm)
 vignette_nm <- "41-penAFT-data"
-
-
-## ----Rsetup-------------------------------------------------------------------
-rm (list=ls())
-sessionInfo()
 
 
 ## ----dat-raw------------------------------------------------------------------
@@ -54,15 +54,16 @@ sum(count_miss_vals == 0)              # Number of variables without missing val
 count_miss_vals[count_miss_vals  >  0] # Variables with missing values
 
 
-## ----cln_vnms2----------------------------------------------------------------
-(cln_vnms2 <- cln_vnms[! cln_vnms %in% c("bmi_tl")])
+## ----remove-vars-miss-vals----------------------------------------------------
+dat_anl[, c("bmi_tl")] <- NULL
+(cln_vnms2 <- cln_vnms[! cln_vnms %in% c("bmi_tl")]) 
+X_vnms <- c(cln_vars2, prt_nms)
 
 
 ## ----dtc-cmplt-cases----------------------------------------------------------
 
-select_vars <- c("fu_time", "status", cln_vnms2, prt_vnms)
 cmplt_cases <- complete.cases(dat_anl)
-dtc <- dat_raw[cmplt_cases, select_vars ]  # Data with complete cases
+dtc <- dat_raw[cmplt_cases, ]  # Data with complete cases
 nrow(dtc) # Number of rows with complete data
 
 
