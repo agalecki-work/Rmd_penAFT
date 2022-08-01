@@ -31,11 +31,13 @@ ls()
 ## ----cva-grid-----------------------------------------------------------------
 loss_grid <- lossgrid(penAFTcva.en)
 names(loss_grid)
-loss_grid_min <- loss_grid[, "lambda.min"] 
-loss_grid[loss_grid_min, ]
+# loss_grid_lambda_min <- loss_grid[, "lambda.min"] 
+# loss_grid[loss_grid_lambda_min, ]
 
-minlossplot(penAFTcva.en)
+
 knitr::knit_exit()
+# minlossplot(penAFTcva.en)
+
 
 
 ## ----penAFT-test-nonzero-coefs------------------------------------------------

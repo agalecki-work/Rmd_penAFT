@@ -45,15 +45,21 @@ ls()
 ```
 
 
-```{r cva-grid}
+```{r cva-lossgrid}
 loss_grid <- lossgrid(penAFTcva.en)
 names(loss_grid)
+save(loss_grid, file = "Rdata/43-penAFT-loss-grid.Rmd
+```
+
+
+```{r cva-lossgrid}
 # loss_grid_lambda_min <- loss_grid[, "lambda.min"] 
 # loss_grid[loss_grid_lambda_min, ]
-
+loss_grid_cv.err.linPred_min <-loss_grid[,"cv.err.linPred_min"]
+loss_grid[loss_grid_cv.err.linPred_min, ]
 
 knitr::knit_exit()
-minlossplot(penAFTcva.en)
+# minlossplot(penAFTcva.en)
 
 ```
 
