@@ -18,34 +18,18 @@ sessionInfo()
 
 
 ## ----input-info, include=FALSE------------------------------------------------
-vignette_nm  <- "43-penAFT-opt"
+vignette_nm  <- "44-penAFT-fit"
 vignette_Rmd <- paste(vignette_nm,".Rmd", sep = "")
 
 
 ## ----load-Rdata---------------------------------------------------------------
-load(file = "Rdata/42-penAFT-cva.Rdata")
+load(file = "Rdata/43-penAFT-loss-grid.Rdata")
 ls()
 
 
 ## ----cva-lossgrid-------------------------------------------------------------
-loss_grid <- lossgrid(penAFTcva.en)
 names(loss_grid)
-save(loss_grid, file = "Rdata/43-penAFT-loss-grid.Rdata")
-
-
-## ----minlossplot-all----------------------------------------------------------
-minlossplot(penAFTcva.en, plot.it ="all")
-
-
-## ----minlossplot-min----------------------------------------------------------
-minlossplot(penAFTcva.en)
-
-
-## ----cva-lossgrid-optm--------------------------------------------------------
-# loss_grid_lambda_min <- loss_grid[, "lambda.min"] 
-# loss_grid[loss_grid_lambda_min, ]
-loss_grid_cv.err.linPred_min <-loss_grid[,"cv.err.linPred_min"]
-loss_grid[loss_grid_cv.err.linPred_min, ]
+# save(?, file = "Rdata/44-penAFT-opt-fit.Rdata")
 
 
 ## ----extract-opt--------------------------------------------------------------
@@ -55,5 +39,4 @@ alpha   <- unique(loss_grid$alpha)
 dta0 <- subset(loss_grid, alpha == alpha0) # select rows for alpha0
 dt1 <-  subset(dta0, cv.err.linPred == min(cv.err.linPred))
 (lambda0 <- dt1[["lambda"]])
-
 
