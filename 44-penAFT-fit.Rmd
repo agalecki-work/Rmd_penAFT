@@ -31,7 +31,7 @@ sessionInfo()
 ```
 
 ```{r input-info, include=FALSE}
-vignette_nm  <- "43-penAFT-opt"
+vignette_nm  <- "44-penAFT-fit"
 vignette_Rmd <- paste(vignette_nm,".Rmd", sep = "")
 ```
 
@@ -40,7 +40,7 @@ vignette_Rmd <- paste(vignette_nm,".Rmd", sep = "")
 * cva object `penAFTcva.en` isloaded from external file
 
 ```{r load-Rdata}
-load(file = "Rdata/42-penAFT-cva.Rdata")
+load(file = "Rdata/43-penAFT-loss-grid.Rdata")
 ls()
 ```
 
@@ -53,9 +53,8 @@ Goal: Find optimal values of alpha and lambda hyperparameters using C-V.
 * Create data frame with for a grid of hyperparameter values  
 
 ```{r cva-lossgrid}
-loss_grid <- lossgrid(penAFTcva.en)
 names(loss_grid)
-save(loss_grid, file = "Rdata/43-penAFT-loss-grid.Rdata")
+save(loss_grid, file = "Rdata/43-penAFT-loss-grid.Rmd")
 ```
 
 ## minmissplot
