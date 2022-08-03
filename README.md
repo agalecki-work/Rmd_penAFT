@@ -1,3 +1,3 @@
-# Rmd_enet
+# Rmd_penAFT
 
-Elastic net examples
+penAFT examples
