@@ -1,0 +1,76 @@
+---
+title: "Test code chunk options"
+author: "Anonymous"
+date: "August 1st, 2022"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Test code chunk options}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r knitr-setup, include = FALSE, comment="#>", eval=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  results = "markup",  
+  highlight = TRUE,
+  fig.width = 12, fig.height=8, fig.path='Figs/'
+)
+```
+
+
+# Testing code chunk options
+
+## Test chunk options defined by knitr 
+
+```{r test-knitr-setup}
+(test_knitr_setup <- "test-knitr-setup")
+```
+
+
+## Option: include = FALSE
+
+* Option: include = FALSE prevents code and results from appearing in the finished (e.g html) file. 
+* R Markdown still runs the code in the chunk, and the results can be used by other chunks
+* R statements are _saved_ in tangle file and are ready for execution
+* Equivalent to combination of two options: echo=FALSE, results="hide"
+
+```{r input-info, echo=FALSE, results="hide"}
+vignette_nm  <- "90-test-chunks"
+vignette_Rmd <- paste(vignette_nm,".Rmd", sep = "")
+vignette_Rmd
+```
+
+```{r test-include, include = FALSE}
+(test_include <- "Test include")
+```
+
+The following output confirms that code chunk was indeed executed
+
+```{r test-include-check}
+exists("test_include")
+```
+
+
+## Commenting out code chunks in tangle file
+
+* echo =FALSE: Corresponding code change does not show in the html file 
+
+```{r test-tangle-out, echo= FALSE, eval=FALSE, comment = "##"}
+(test_tangle <- "Test tangle")
+```
+The following output confirms that code chunk was not executed (as intended)
+
+```{r test-tangleout-check}
+exists("test_tangle")
+```
+
+## Test figure
+
+```{r test-figure, echo = FALSE, fig.height=4, fig.width=8, dev ="svg"}
+plot(cars)
+```
+
+
+
+
