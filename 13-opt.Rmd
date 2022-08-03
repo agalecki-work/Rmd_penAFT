@@ -9,10 +9,9 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE, echo=FALSE}
+```{r, include = FALSE, eval = FALSE, comment = "#>"}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>",
   results = "markup",
   highlight = TRUE,
   fig.width = 12, fig.height=8, fig.path='Figs/'
@@ -31,16 +30,16 @@ sessionInfo()
 ```
 
 ```{r input-info, include=FALSE}
-vignette_nm  <- "44-penAFT-fit"
+vignette_nm  <- "13-opt"
 vignette_Rmd <- paste(vignette_nm,".Rmd", sep = "")
 ```
 
-* This is `r vignette_nm` vignette that illustrates how to fitmodel using optimal values of hyperpramaters for `cva` object
+* This is `r vignette_nm` vignette that illustrates how to find optimal values of hyperpramaters for `cva` object
 * Rmd file  `r vignette_Rmd` was executed at `r Sys.time()`
-* Loss data on a grid of parameter values is loaded from an external file
+* cva object `penAFTcva.en` is loaded from an external file
 
 ```{r load-Rdata}
-load(file = "Rdata/43-penAFT-loss-grid.Rdata")
+load(file = "Rdata/12-cva.Rdata")
 ls()
 ```
 
@@ -53,14 +52,35 @@ Goal: Find optimal values of alpha and lambda hyperparameters using C-V.
 * Create data frame with for a grid of hyperparameter values  
 
 ```{r cva-lossgrid}
+loss_grid <- lossgrid(penAFTcva.en)
 names(loss_grid)
-# save(?, file = "Rdata/44-penAFT-opt-fit.Rdata")
+save(loss_grid, file = "Rdata/13-loss-grid.Rdata")
 ```
 
+## minmissplot
+
+* Auxiliary plot for all values of alpha and lambda
+
+```{r minlossplot-all}
+minlossplot(penAFTcva.en, plot.it ="all")
+```
+
+* Default plot with minimum loss for each alpha
+
+```{r minlossplot-min}
+minlossplot(penAFTcva.en)
+```
+
+## Explore loss_grid data frame
+
+```{r cva-lossgrid-optm}
+# loss_grid_lambda_min <- loss_grid[, "lambda.min"] 
+# loss_grid[loss_grid_lambda_min, ]
+loss_grid_cv.err.linPred_min <-loss_grid[,"cv.err.linPred_min"]
+loss_grid[loss_grid_cv.err.linPred_min, ]
+```
 
 * Extract optimum values
-
-Extract optimum values (shown in 43-penAFT-opt.Rmd)
 
 ```{r extract-opt}
 alpha   <- unique(loss_grid$alpha)
@@ -69,5 +89,6 @@ alpha   <- unique(loss_grid$alpha)
 dta0 <- subset(loss_grid, alpha == alpha0) # select rows for alpha0
 dt1 <-  subset(dta0, cv.err.linPred == min(cv.err.linPred))
 (lambda0 <- dt1[["lambda"]])
+
 ```
 
