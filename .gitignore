@@ -12,6 +12,21 @@ Rdata/*.Rdata
 # Example code in package build process
 *-Ex.R
 
+# selected R scripts
+
+1*.R
+2*.R
+3*.R
+4*.R
+5*.R
+6*.R
+7*.R
+8*.R
+9*.R
+
+# RMD cache
+*_cache/
+
 # Output files from R CMD build
 /*.tar.gz
 

@@ -1,25 +1,19 @@
 # source("_render_vignettes.R")
 
-rmarkdown::render("glmnetUtils_logistic.Rmd", "all")
-knitr::purl("glmnetUtils_logistic.Rmd")
+process_Rmd <- function (nm){
+ nm.Rmd <- paste(nm,".Rmd", sep = "")
+ nm.R <- paste(nm,".R", sep = "")
+ knitr::purl(nm.Rmd, output = nm.R)
+ rmarkdown::render(nm.Rmd, "all")
+}
 
-rmarkdown::render("glmnet_logistic.Rmd", "all")
-knitr::purl("glmnet_logistic.Rmd")
+process_Rmd("11-data")
 
-rmarkdown::render("penAFT.Rmd")
-knitr::purl("penAFT.Rmd", output = "penAFT-vignette.R")
+process_Rmd("12-cva")
 
-rmarkdown::render("41-penAFT-data.Rmd", "all")
-knitr::purl("41-penAFT-data.Rmd", output = "41-penAFT-data.R")
+process_Rmd("13-op")
 
-rmarkdown::render("42-penAFT-cva.Rmd", "all")
-knitr::purl("42-penAFT-cva.Rmd", output = "42-penAFT-cva.R")
+process_Rmd("14-fit")
 
-rmarkdown::render("43-penAFT-opt.Rmd", "all")
-knitr::purl("43-penAFT-opt.Rmd", output = "43-penAFT-opt.R")
+process_Rmd("90-test-chunks")
 
-rmarkdown::render("44-penAFT-fit.Rmd", "all")
-knitr::purl("44-penAFT-fit.Rmd", output = "44-penAFT-fit.R")
-
-rmarkdown::render("90-Rmd-test-chunks.Rmd", "all")
-knitr::purl("90-Rmd-test-chunks.Rmd", output = "90-Rmd-test-chunks.Rmd.R")

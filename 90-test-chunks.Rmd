@@ -36,7 +36,7 @@ knitr::opts_chunk$set(
 * Equivalent to combination of two options: echo=FALSE, results="hide"
 
 ```{r input-info, echo=FALSE, results="hide"}
-vignette_nm  <- "90-Rmd-test-chunks"
+vignette_nm  <- "90-test-chunks"
 vignette_Rmd <- paste(vignette_nm,".Rmd", sep = "")
 vignette_Rmd
 ```

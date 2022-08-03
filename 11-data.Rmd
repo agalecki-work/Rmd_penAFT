@@ -32,7 +32,7 @@ sessionInfo()
 ```{r input-info, echo=FALSE}
 xlsxnm <- "datain/joslin_npx_scrambled_053122.xlsx"
 xlsxbs <- basename(xlsxnm)
-vignette_nm  <- "41-penAFT-data"
+vignette_nm  <- "11-data"
 vignette_Rmd <- paste(vignette_nm,".Rmd", sep = "")
 ```
 
@@ -120,7 +120,7 @@ nrow(dtc) # Number of rows with complete data
 ```
 
 ```{r save-dtc}}
-fnm <- "Rdata/41-penAFT-dtc.Rdata"
+fnm <- "Rdata/11-dtc.Rdata"
 save(dtc, file = fnm )
 ```
 
@@ -150,10 +150,10 @@ logYnew <- logY[sel_rows]
 Save matrices for model fitting.
 
 ```{r save-mtx}}
-fnm <- "Rdata/41-penAFT-mtx.Rdata"
+fnm <- "Rdata/11-mtx.Rdata"
 save(X,logY, delta, file = fnm )
 
-fnm <- "Rdata/41-penAFT-mtxnew.Rdata"
+fnm <- "Rdata/11-mtxnew.Rdata"
 save(Xnew, logYnew, file = fnm )
 ```
 
