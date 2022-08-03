@@ -1,8 +1,9 @@
 # ---
+source("Rfunctions/stitch_r.R")
 
-stitch("99-test-chunks.R")
 
-stitch_rhtml("99-test-chunks.R")
+stitch_r("90-test-chunks")
+
 
 
 # lapply(as.list(R_nms), source)
