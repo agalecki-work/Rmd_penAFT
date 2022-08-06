@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 
 # R session setup
 
-```{r Rsetup-ls, echo=FALSE}
+```{r Rsetup-ls, include = FALSE}
 rm (list=ls())
 ```
 
@@ -119,8 +119,8 @@ dtc <- dat_raw[cmplt_cases, ]  # Data with complete cases
 nrow(dtc) # Number of rows with complete data
 ```
 
-```{r save-dtc}}
-fnm <- "Rdata/11-dtc.Rdata"
+```{r save-dtc}
+fnm <- "raw-Rdata/11-dtc.Rdata"
 save(dtc, file = fnm )
 ```
 
@@ -149,11 +149,11 @@ logYnew <- logY[sel_rows]
 
 Save matrices for model fitting.
 
-```{r save-mtx}}
-fnm <- "Rdata/11-mtx.Rdata"
+```{r save-mtx}
+fnm <- "raw-Rdata/11-mtx.Rdata"
 save(X,logY, delta, file = fnm )
 
-fnm <- "Rdata/11-mtxnew.Rdata"
+fnm <- "raw-Rdata/11-mtxnew.Rdata"
 save(Xnew, logYnew, file = fnm )
 ```
 

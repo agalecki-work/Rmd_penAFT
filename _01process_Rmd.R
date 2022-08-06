@@ -7,7 +7,7 @@ Rmd_names <- c("11-data",
                "14-fit",
                "90-test-chunks"
               )
-Rmd_names <- "90-test-chunks"
+##Rmd_names <- "90-test-chunks"
 lapply(as.list(Rmd_names), process_Rmd)
  
 
