@@ -9,10 +9,11 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, knitr-setup, include = FALSE, comment="#>", eval=FALSE}
+```{r, knitr-setup, include = FALSE}
 knitr::opts_chunk$set(
-  collapse = TRUE,
-  results = "markup",
+  collapse  = TRUE,
+  results   = "markup",
+  comment   ="#>",
   highlight = TRUE,
   fig.width = 12, fig.height=8, fig.path='Figs/'
 )
@@ -42,7 +43,7 @@ vignette_Rmd <- paste(vignette_nm,".Rmd", sep = "")
 ```{r load-Rdata}
 library(penAFT)
 sessionInfo()
-load(file = "Rdata/11-mtx.Rdata")
+load(file = "raw-Rdata/11-mtx.Rdata")
 ls()
 ```
 

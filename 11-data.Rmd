@@ -10,11 +10,12 @@ vignette: >
 ---
 
 
-```{r knitr-setup, include = FALSE, comment="#>", eval=FALSE}
+```{r knitr-setup, include = FALSE, eval=FALSE}
 knitr::opts_chunk$set(
   collapse  = TRUE,
   results   = "markup",
   highlight = TRUE,
+  comment="#>",
   fig.width = 12, fig.height=8, fig.path='Figs/'
 )
 ```
