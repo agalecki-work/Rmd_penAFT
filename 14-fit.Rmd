@@ -1,28 +1,43 @@
 ---
 title: "penAFT: Optimal hyperparameters"
 author: "Anonymous"
-date: "August 1st, 2022"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{penAFT: Optimal hyperparameters}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+date: "August 7th, 2022"
+output: 
+  html_document:
+    toc: true
+    number_sections: true
 ---
 
-```{r, include = FALSE, eval=FALSE, comment = "#>"}
+
+```{r Rmd-init, include = FALSE}
+## The code in this chunk will be executed, will not appear in rendered .html file
+
+##  Silently sets knitr chunk options used in Rmd file
+require(knitr)
 knitr::opts_chunk$set(
   collapse = TRUE,
-  results = "markup",
+  results = "markup",  
+  comment="#>",
   highlight = TRUE,
   fig.width = 12, fig.height=8, fig.path='Figs/'
 )
+
+# Silently clears Global environment
+rm(list=ls())
+
+# Create .params list  # <- !!! 
+.params <- list(vignette_nm = "14-fit"
+                ) 
+
+# Silently assign variables for later use
+vignette_nm  <- .params$vignette_nm   # .params refers to list defined above
+vignette_Rmd <- paste(vignette_nm,".Rmd", sep = "")
+vignette_R   <- paste(vignette_nm,".R",   sep = "")
+vignette_html<- paste(vignette_nm, ".html",   sep = "")
 ```
 
 # R session setup
 
-```{r Rsetup-ls, include=FALSE}
-rm (list=ls())
-```
 
 ```{r Rsetup}
 library(cvaUtils)

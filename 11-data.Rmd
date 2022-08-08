@@ -1,12 +1,11 @@
 ---
 title: "Read data for penAFT model"
 author: "Anonymous"
-date: "August 1st, 2022"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{Read data for penAFT model}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+date: "August 7th, 2022"
+output: 
+  html_document:
+    toc: true
+    number_sections: true
 ---
 
 
@@ -22,19 +21,36 @@ knitr::opts_chunk$set(
 
 # R session setup
 
-```{r Rsetup-ls, include = FALSE}
-rm (list=ls())
-```
 
-```{r Rsetup}
-sessionInfo()
-```
+```{r Rmd-init, include = FALSE}
+## The code in this chunk will be executed, will not appear in rendered .html file
 
-```{r input-info, echo=FALSE}
-xlsxnm <- "datain/jnpx_scrambled_053122.xlsx"
-xlsxbs <- basename(xlsxnm)
-vignette_nm  <- "11-data"
+##  Silently sets knitr chunk options used in Rmd file
+require(knitr)
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  results = "markup",  
+  comment="#>",
+  highlight = TRUE,
+  fig.width = 12, fig.height=8, fig.path='Figs/'
+)
+
+# Silently clears Global environment
+rm(list=ls())
+
+# Create .params list  # <- !!! 
+.params <- list(vignette_nm = "11-data",
+                xlsxbs = "jnpx_scrambled_053122"   # Base name
+                ) 
+
+# Silently assign variables for later use
+vignette_nm  <- .params$vignette_nm   # .params refers to list defined above
 vignette_Rmd <- paste(vignette_nm,".Rmd", sep = "")
+vignette_R   <- paste(vignette_nm,".R",   sep = "")
+vignette_html<- paste(vignette_nm, ".html",   sep = "")
+
+xlsxbs <- .params$xlsxbs
+xlsxnm <- paste("datain/", .params$xlsxbs, ".xlsx", sep="")
 ```
 
 
