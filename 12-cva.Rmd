@@ -25,8 +25,8 @@ knitr::opts_chunk$set(
 rm(list=ls())
 
 # Create .params list  # <- !!! 
-.params <- list(vignette_nm = "12-cva",
-                ) 
+.params <- list(vignette_nm = "12-cva"
+               ) 
 
 # Silently assign variables for later use
 vignette_nm  <- .params$vignette_nm   # .params refers to list defined above
