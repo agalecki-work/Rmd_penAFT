@@ -44,19 +44,8 @@ library(cvaUtils)
 sessionInfo()
 ```
 
-```{r input-info, include=FALSE}
-vignette_nm  <- "14-fit"
-vignette_Rmd <- paste(vignette_nm,".Rmd", sep = "")
-```
-
-* This is `r vignette_nm` vignette that illustrates how to fitmodel using optimal values of hyperpramaters for `cva` object
+* This is `r vignette_nm` vignette that illustrates how to fit model using optimal values of hyperpramaters for `cva` object
 * Rmd file  `r vignette_Rmd` was executed at `r Sys.time()`
-* Loss data on a grid of parameter values is loaded from an external file
-
-```{r load-Rdata}
-load(file = "Rdata/13-loss-grid.Rdata")
-ls()
-```
 
 # Optimal values of hyperparameters
 
@@ -64,17 +53,17 @@ Goal: Find optimal values of alpha and lambda hyperparameters using C-V.
 
 ## Loss grid for cva object
 
-* Create data frame with for a grid of hyperparameter values  
+* Loss values on a grid of parameter values is loaded from an external file
 
-```{r cva-lossgrid}
-names(loss_grid)
-# save(?, file = "Rdata/14-opt-fit.Rdata")
+```{r load-Rdata}
+load(file = "raw-Rdata/11-mtx.Rdata")
+load(file = "Rdata/13-loss-grid.Rdata")
+ls()
 ```
-
 
 * Extract optimum values
 
-Extract optimum values (see 13-opt.Rmd)
+Extract optimum values alpha0 and lambda0 (see 13-opt.Rmd)
 
 ```{r extract-opt}
 alpha   <- unique(loss_grid$alpha)
@@ -84,4 +73,22 @@ dta0 <- subset(loss_grid, alpha == alpha0) # select rows for alpha0
 dt1 <-  subset(dta0, cv.err.linPred == min(cv.err.linPred))
 (lambda0 <- dt1[["lambda"]])
 ```
+
+## Find solution path for a given alpha
+
+Find solution path for the regularized semiparametric AFT model (alpha = `r alpha0`).
+
+```{r fit-en, cache = TRUE}
+fit.en <- penAFT(X = X, logY = logY, delta = delta,
+                   nlambda = 50, lambda.ratio.min = 0.01,
+                   penalty = "EN",
+                   alpha = alpha0)
+```
+save fit_en object
+
+```{r save-fit-en}
+save(fit.en, file ="Rdata/14-fit.Rdata")
+str(fit.en)
+```
+
 

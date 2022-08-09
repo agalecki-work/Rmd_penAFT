@@ -1,0 +1,9 @@
+Extract model coefficients for lambda0=`r lambda0`.
+
+```{r fit-en-coefs}                   
+lmbda <- fit.en$lambda
+range(lmbda)
+(coef.fit.en <- penAFT.coef(fit.en, lambda = lmbda[lmbda == lambda0]))
+```
+
+* Use alpha0 and lambda0 extracted above
