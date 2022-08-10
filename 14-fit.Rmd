@@ -1,7 +1,7 @@
 ---
-title: "penAFT: Optimal hyperparameters"
+title: "penAFT: Optimal Model fit"
 author: "Anonymous"
-date: "August 7th, 2022"
+date: "August 10th, 2022"
 output: 
   html_document:
     toc: true
@@ -41,6 +41,8 @@ vignette_html<- paste(vignette_nm, ".html",   sep = "")
 
 ```{r Rsetup}
 library(cvaUtils)
+library(penAFT)
+
 sessionInfo()
 ```
 
@@ -63,7 +65,7 @@ ls()
 
 * Extract optimum values
 
-Extract optimum values alpha0 and lambda0 (see 13-opt.Rmd)
+Extract optimum values alpha0 and lambda0 (use code from 13-opt.Rmd)
 
 ```{r extract-opt}
 alpha   <- unique(loss_grid$alpha)
@@ -76,19 +78,22 @@ dt1 <-  subset(dta0, cv.err.linPred == min(cv.err.linPred))
 
 ## Find solution path for a given alpha
 
-Find solution path for the regularized semiparametric AFT model (alpha = `r alpha0`).
+Find regularized semiparametric AFT model (alpha = `r alpha0`).
 
 ```{r fit-en, cache = TRUE}
 fit.en <- penAFT(X = X, logY = logY, delta = delta,
-                   nlambda = 50, lambda.ratio.min = 0.01,
+                   lambda  = lambda0,
                    penalty = "EN",
                    alpha = alpha0)
 ```
-save fit_en object
+
+Save fit.en object
 
 ```{r save-fit-en}
 save(fit.en, file ="Rdata/14-fit.Rdata")
 str(fit.en)
 ```
+
+
 
 
