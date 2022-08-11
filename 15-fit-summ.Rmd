@@ -49,7 +49,7 @@ sessionInfo()
 
 # Extract info from an optimal model fit 
 
-* Loss values on a grid of parameter values is loaded from an external file
+* Optimal model fit is loaded from an external file
 
 ```{r load-Rdata}
 load(file = "Rdata/14-fit.Rdata")
@@ -57,12 +57,9 @@ ls()
 ```
 
 
-
-Extract model coefficients for lambda0=`lambda0`.
-
 ## Optimal model coefficients
 
-Extract model coefficients for alpha0 =`r fit.en$alpha` and lambda0 =`r fit.en$lambda`.
+Extract model coefficients for optimal values of alpha0 =`r fit.en$alpha` and lambda0 =`r fit.en$lambda`.
 
 ```{r fit-en-coefs} 
 lmbda0 <- fit.en$lambda
@@ -71,4 +68,33 @@ coef.fit.en <- coef.fit.en_list$beta
 coef_nms <- names(fit.en$X.mean)
 rownames(coef.fit.en) <- coef_nms
 coef.fit.en
+```
+
+## Predicted values 
+
+Load matrices for prediction
+
+```{r load-newmtx}
+load(file ="raw-Rdata/11-mtxnew.Rdata")
+ls()
+```
+
+Linear prediction.
+
+Note: From documentation: "It is important to note that the output of this function should
+not be treated as an estimate of the log-survival time"
+
+```{r fit_en-predict}
+lin_pred <- penAFT.predict(fit.en, Xnew = Xnew, lambda = lmbda0)
+```
+
+Cross-check
+
+```{r fit_en-pred-xcheck}
+Xpred <- (Xnew - rep(1, dim(Xnew)[1]) %*% t(fit.en$X.mean))/(rep(1, 
+                dim(Xnew)[1]) %*% t(fit.en$X.sd))
+apply(Xnew,2,mean)                
+
+predChk <- Xpred %*% coef.fit.en
+plot(lin_pred,predChk)
 ```
