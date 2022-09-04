@@ -83,10 +83,11 @@ ls()
 Linear prediction.
 
 Note: From documentation: "It is important to note that the output of this function should
-not be treated as an estimate of the log-survival time"
+not be treated as an estimate of the log-survival time".
 
 ```{r fit_en-predict}
-lin_pred <- penAFT_predict(fit.en, Xnew = Xnew, lambda = lmbda0)
+lin_pred <- penAFT.predict(fit.en, Xnew = Xnew, lambda = lmbda0)
+plot(lin_pred, logYnew)
 ```
 
 Cross-check
@@ -94,7 +95,7 @@ Cross-check
 ```{r fit_en-pred-xcheck}
 Xpred <- (Xnew - rep(1, dim(Xnew)[1]) %*% t(fit.en$X.mean))/(rep(1, 
                 dim(Xnew)[1]) %*% t(fit.en$X.sd))
-               
-predChk <- Xpred %*% coef.fit.en
+.beta <-  fit.en$X.sd * coef.fit.en            
+predChk <- Xpred %*% .beta
 plot(lin_pred,predChk)
 ```
