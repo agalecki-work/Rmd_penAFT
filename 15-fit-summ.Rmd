@@ -70,7 +70,7 @@ names(fit.en)
 ## Optimal model coefficients
 
 Extract model coefficients for optimal values of alpha0 =`r fit.en$alpha` and lambda0 =`r fit.en$lambda`.
-Coefficients are standardized, i.e divided by X.sd
+Coefficients stored in ` ` are standardized, i.e divided by X.sd
 
 ```{r fit-en-coefs} 
 (lmbda0 <- fit.en$lambda)
@@ -78,6 +78,9 @@ coef.fit.en_list <- penAFT.coef(fit.en, lambda = lmbda0)
 coef.fit.en <- coef.fit.en_list$beta
 coef_nms <- names(fit.en$X.mean)
 rownames(coef.fit.en) <- coef_nms
+coef.fit.en
+
+rm(lmbda0, coef.fit.en_list, coef_nms)
 ```
 
 ## Predicted values 
@@ -85,8 +88,9 @@ rownames(coef.fit.en) <- coef_nms
 * Load matrices for prediction.
 
 ```{r load-newmtx}
+ls() # Before load
 load(file ="raw-Rdata/11-mtxnew.Rdata")
-ls()
+ls() 
 ```
 
 * Linear prediction.
@@ -95,8 +99,9 @@ Note: From documentation: "It is important to note that the output of `penAFT.pr
 not be treated as an estimate of the log-survival time".
 
 ```{r fit_en-predict}
+(lmbda0 <- fit.en$lambda)
 lin_pred <- penAFT.predict(fit.en, Xnew = Xnew, lambda = lmbda0)
-plot(lin_pred, logYnew)
+plot(logYnew, lin_pred, main= "Predicted versus observed on log10 scale")
 ```
 
 * Cross-check
