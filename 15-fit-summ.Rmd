@@ -70,7 +70,7 @@ names(fit.en)
 ## Optimal model coefficients
 
 Extract model coefficients for optimal values of alpha0 =`r fit.en$alpha` and lambda0 =`r fit.en$lambda`.
-Coefficients stored in ` ` are standardized, i.e divided by X.sd
+Coefficients stored in `coef.fit.en` are standardized, i.e divided by X.sd
 
 ```{r fit-en-coefs} 
 (lmbda0 <- fit.en$lambda)
@@ -104,12 +104,12 @@ lin_pred <- penAFT.predict(fit.en, Xnew = Xnew, lambda = lmbda0)
 plot(logYnew, lin_pred, main= "Predicted versus observed on log10 scale")
 ```
 
-* Cross-check
+* Cross-check, i.e. manually obtain predicted values
 
 ```{r fit_en-pred-xcheck}
-Xpred <- (Xnew - rep(1, dim(Xnew)[1]) %*% t(fit.en$X.mean))/(rep(1, 
-                dim(Xnew)[1]) %*% t(fit.en$X.sd))
+Xpred <- (Xnew - rep(1, dim(Xnew)[1]) %*% t(fit.en$X.mean))/
+            (rep(1, dim(Xnew)[1]) %*% t(fit.en$X.sd))
 .beta <-  fit.en$X.sd * coef.fit.en            
 predChk <- Xpred %*% .beta
-range(lin_pred-predChk)
+round(range(lin_pred-predChk), digits = 5) # zeros?
 ```
