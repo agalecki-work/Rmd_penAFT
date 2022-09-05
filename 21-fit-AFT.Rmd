@@ -1,0 +1,88 @@
+---
+title: "penAFT: Summary of the Optimal Model Fit"
+author: "Anonymous"
+date: "September 10th, 2022"
+output: 
+  html_document:
+    toc: true
+    number_sections: true
+---
+
+
+```{r Rmd-init, include = FALSE}
+## The code in this chunk will be executed, will not appear in rendered .html file
+
+##  Silently sets knitr chunk options used in Rmd file
+require(knitr)
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  results = "markup",  
+  comment="#>",
+  highlight = TRUE,
+  fig.width = 12, fig.height=8, fig.path='Figs/'
+)
+
+# Silently clears Global environment
+rm(list=ls())
+
+# Create .params list  # <- !!! 
+.params <- list(.vignette_nm = "21-fit-AFT"
+                ) 
+
+# Silently assign variables for later use
+.vignette_nm  <- .params$.vignette_nm   # .params refers to list defined above
+.vignette_Rmd <- paste(.vignette_nm,".Rmd", sep = "")
+.vignette_R   <- paste(.vignette_nm,".R",   sep = "")
+.vignette_html<- paste(.vignette_nm, ".html",   sep = "")
+ls()
+```
+
+# R session setup
+
+
+```{r Rsetup}
+library(penAFT)
+sessionInfo()
+```
+
+```{r load-dtc}
+fnm <- "raw-Rdata/11-dtc.Rdata"
+load(file = fnm )
+ls()
+```
+
+
+
+```{r surv-AFT}
+#require(survival)
+#pacman::p_load(KMsurv)
+
+#library(KMsurv)
+library(survival)
+#data("kidtran") 
+
+#n = nrow(kidtran)
+
+#kidtran       <- kidtran[sample(n),] 
+#kidtran.train <- kidtran[1:(n * 0.8),]
+#kidtran.test  <- kidtran[(n * 0.8):n,]
+
+
+aftmodel  <- survreg(Surv(fu_time, status) ~ b_hba1c_prc + du_acr + bl_egfr +
+  kim1.npx + wfdc2.npx + cd27.npx + tnfrsf6b.npx + epha2.npx, dist = "weibull", data = dtc)
+aftmodel
+
+#predicted <- predict(aftmodel, newdata = kidtran.test)
+```
+
+The psm function in the R rms package is a kind of front-end for survreg 
+in the survival package. psm provides the c-index, or at least Somers' Dxy 
+that allows you to compute c from the equation Dxy=2×(c−12). 
+It does not provide the Brier score which is used more so for binary Y
+
+# Extract info from an optimal model fit 
+
+* This is `r .vignette_nm` vignette that illustrates how to extract information from an optimal model fit.
+* Rmd file `r .vignette_Rmd` was executed at `r Sys.time()`
+
+

@@ -8,7 +8,7 @@ Rmd_names <- c("11-data",
                "15-fit-summ",
                "90-test-chunks"
               )
-Rmd_names <- "15-fit-summ"
+Rmd_names <- "21-fit-AFT"
 lapply(as.list(Rmd_names), process_Rmd)
  
 
