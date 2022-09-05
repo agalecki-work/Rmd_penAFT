@@ -1,0 +1,115 @@
+---
+title: "penAFT: Summary of the Optimal Model Fit"
+author: "Anonymous"
+date: "September 10th, 2022"
+output: 
+  html_document:
+    toc: true
+    number_sections: true
+---
+
+
+```{r Rmd-init, include = FALSE}
+## The code in this chunk will be executed, will not appear in rendered .html file
+
+##  Silently sets knitr chunk options used in Rmd file
+require(knitr)
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  results = "markup",  
+  comment="#>",
+  highlight = TRUE,
+  fig.width = 12, fig.height=8, fig.path='Figs/'
+)
+
+# Silently clears Global environment
+rm(list=ls())
+
+# Create .params list  # <- !!! 
+.params <- list(.vignette_nm = "15-fit-summ"
+                ) 
+
+# Silently assign variables for later use
+.vignette_nm  <- .params$.vignette_nm   # .params refers to list defined above
+.vignette_Rmd <- paste(.vignette_nm,".Rmd", sep = "")
+.vignette_R   <- paste(.vignette_nm,".R",   sep = "")
+.vignette_html<- paste(.vignette_nm, ".html",   sep = "")
+ls()
+```
+
+# R session setup
+
+
+```{r Rsetup}
+library(penAFT)
+sessionInfo()
+```
+
+# Extract info from an optimal model fit 
+
+* This is `r .vignette_nm` vignette that illustrates how to extract information from an optimal model fit.
+* Rmd file `r .vignette_Rmd` was executed at `r Sys.time()`
+
+
+* Optimal model fit is loaded from an external file
+
+```{r load-Rdata}
+load(file = "Rdata/14-fit.Rdata")
+ls()
+```
+
+* Atributes of `fit.en` object
+
+```{r fit-en-attributes}
+class(fit.en)
+length(fit.en)
+names(fit.en)
+```
+
+
+## Optimal model coefficients
+
+Extract model coefficients for optimal values of alpha0 =`r fit.en$alpha` and lambda0 =`r fit.en$lambda`.
+Coefficients stored in `coef.fit.en` are standardized, i.e divided by X.sd
+
+```{r fit-en-coefs} 
+(lmbda0 <- fit.en$lambda)
+coef.fit.en_list <- penAFT.coef(fit.en, lambda = lmbda0)
+coef.fit.en <- coef.fit.en_list$beta
+coef_nms <- names(fit.en$X.mean)
+rownames(coef.fit.en) <- coef_nms
+coef.fit.en
+
+rm(lmbda0, coef.fit.en_list, coef_nms)
+```
+
+## Predicted values 
+
+* Load matrices for prediction.
+
+```{r load-newmtx}
+ls() # Before load
+load(file ="raw-Rdata/11-mtxnew.Rdata")
+ls() 
+```
+
+* Linear prediction.
+
+Note: From documentation: "It is important to note that the output of `penAFT.predict` function should
+not be treated as an estimate of the log-survival time".
+
+```{r fit_en-predict}
+(lmbda0 <- fit.en$lambda)
+lin_pred <- penAFT.predict(fit.en, Xnew = Xnew, lambda = lmbda0)
+plot(logYnew, lin_pred, main= "Predicted versus observed on log10 scale")
+```
+
+* Cross-check, i.e. manually obtain predicted values
+
+```{r fit_en-pred-xcheck}
+Xpred <- (Xnew - rep(1, dim(Xnew)[1]) %*% t(fit.en$X.mean))/
+            (rep(1, dim(Xnew)[1]) %*% t(fit.en$X.sd))
+.beta <-  fit.en$X.sd * coef.fit.en            
+predChk <- Xpred %*% .beta
+round(range(lin_pred-predChk), digits = 5) # zeros?
+```
