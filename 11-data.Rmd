@@ -149,12 +149,8 @@ Data frame `dtc` with complete cases contains `r nrow(dtc)` rows  and `r ncol(dt
 Based on [https://stackoverflow.com/questions/26034177/save-multiple-ggplots-using-a-for-loop](link)
 https://ggplot2-book.org/arranging-plots.html
 
-```{r dtc-hist-list}
+```{r dtc-hist-list, include = FALSE}
 library(ggplot2)
-#library(tidyr)
-#library(dplyr)
-library(gridExtra)
-library(cowplot)
 
 # List of variable names to loop over.
 
@@ -188,11 +184,11 @@ p1 +p2+p3+p4+p5+p6+p7+p8 + plot_layout(ncol = 2)
 
 
 "kim1.npx"        "synd1.npx"      
-[17] "il.1rt1.npx"     "wfdc2.npx"       "cd27.npx"        "tnfrsf10a.npx"  
-[21] "layn.npx"        "pvrl4.npx"       "eda2r.npx"       "tnfrsf4.npx"    
-[25] "gfr_alpha_1_npx" "tnf.r1.npx"      "pi3_npx"         "efna4.npx"      
-[29] "tnf.r2.npx"      "dll1.npx"        "tnfrsf6b.npx"    "cd160.npx"      
-[33] "epha2.npx"       "relt.npx"        "ltbr.npx"
+"il.1rt1.npx"     "wfdc2.npx"       "cd27.npx"        "tnfrsf10a.npx"  
+"layn.npx"        "pvrl4.npx"       "eda2r.npx"       "tnfrsf4.npx"    
+"gfr_alpha_1_npx" "tnf.r1.npx"      "pi3_npx"         "efna4.npx"      
+"tnf.r2.npx"      "dll1.npx"        "tnfrsf6b.npx"    "cd160.npx"      
+"epha2.npx"       "relt.npx"        "ltbr.npx"
 
 
 ## Create X, Y and Xnew matrices
