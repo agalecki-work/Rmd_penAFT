@@ -124,13 +124,11 @@ Remove variables with excessive number of missing values
 dat_anl[, c("bmi_tl")] <- NULL
 (cln_vnms2 <- cln_vnms[! cln_vnms %in% c("bmi_tl")]) 
 X_vnms <- c(cln_vnms2, prt_vnms)
-```
-
 ``` 
+
 Select subset of rows with *complete*  cases
 
 ```{r dtc-cmplt-cases}
-
 cmplt_cases <- complete.cases(dat_anl)
 dtc <- dat_raw[cmplt_cases, ]  # Data with complete cases
 nrow(dtc) # Number of rows with complete data
@@ -142,6 +140,60 @@ save(dtc, file = fnm )
 ```
 
 Data frame `dtc` with complete cases contains `r nrow(dtc)` rows  and `r ncol(dtc)` columns. 
+
+## Data summary
+
+
+### Histograms
+
+Based on [https://stackoverflow.com/questions/26034177/save-multiple-ggplots-using-a-for-loop](link)
+https://ggplot2-book.org/arranging-plots.html
+
+```{r dtc-hist-list}
+library(ggplot2)
+#library(tidyr)
+#library(dplyr)
+library(gridExtra)
+library(cowplot)
+
+# List of variable names to loop over.
+
+vnms <- names(dtc)
+nvars <- length(vnms)
+
+# Make plots
+
+hx = list()
+for (i in 1:nvars) {
+       p <- ggplot(dtc, aes_string(x = vnms[i])) + geom_histogram() 
+       hx[[i]] <- p
+}
+
+names(hx) <- vnms
+
+```
+
+```{r hist-clinical}
+library(patchwork)
+p1 <- hx[["sbp_tl"]]
+p2 <- hx[["dbp_tl"]]         
+p3 <- hx[["ageonset_tl"]]
+p4 <- hx[["bmi_tl"]]
+p5 <- hx[["age_tl"]]     
+p6 <- hx[["b_hba1c_prc"]]    
+p7 <- hx[["du_acr"]] 
+p8 <- hx[["bl_egfr"]]
+p1 +p2+p3+p4+p5+p6+p7+p8 + plot_layout(ncol = 2)
+```
+
+
+"kim1.npx"        "synd1.npx"      
+[17] "il.1rt1.npx"     "wfdc2.npx"       "cd27.npx"        "tnfrsf10a.npx"  
+[21] "layn.npx"        "pvrl4.npx"       "eda2r.npx"       "tnfrsf4.npx"    
+[25] "gfr_alpha_1_npx" "tnf.r1.npx"      "pi3_npx"         "efna4.npx"      
+[29] "tnf.r2.npx"      "dll1.npx"        "tnfrsf6b.npx"    "cd160.npx"      
+[33] "epha2.npx"       "relt.npx"        "ltbr.npx"
+
 
 ## Create X, Y and Xnew matrices
 

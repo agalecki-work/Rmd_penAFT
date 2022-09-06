@@ -54,25 +54,17 @@ ls()
 
 
 ```{r surv-AFT}
-#require(survival)
-#pacman::p_load(KMsurv)
-
-#library(KMsurv)
 library(survival)
-#data("kidtran") 
 
-#n = nrow(kidtran)
-
-#kidtran       <- kidtran[sample(n),] 
-#kidtran.train <- kidtran[1:(n * 0.8),]
-#kidtran.test  <- kidtran[(n * 0.8):n,]
-
-
-aftmodel  <- survreg(Surv(fu_time, status) ~ b_hba1c_prc + du_acr + bl_egfr +
+aft_weibull  <- survreg(Surv(fu_time, status) ~ b_hba1c_prc + du_acr + bl_egfr +
   kim1.npx + wfdc2.npx + cd27.npx + tnfrsf6b.npx + epha2.npx, dist = "weibull", data = dtc)
-aftmodel
+aft_weibull
+```
 
-#predicted <- predict(aftmodel, newdata = kidtran.test)
+```{r pred_weibull}
+newdt <- dtc
+pred_weibull <- predict(aft_weibull, newdata = newdt)
+plot(newdt$fu_time, pred_weibull)
 ```
 
 The psm function in the R rms package is a kind of front-end for survreg 
