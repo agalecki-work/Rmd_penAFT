@@ -6,10 +6,11 @@ Rmd_names <- c("11-data",
                "13-opt",
                "14-fit",
                "15-fit-summ",
+               "21-fit-AFT"
                "90-test-chunks"
               )
 Rmd_names <- "21-fit-AFT"
-Rmd_names <- "12-cva"
+Rmd_names <- "21-fit-AFT"
 
 lapply(as.list(Rmd_names), process_Rmd)
  
