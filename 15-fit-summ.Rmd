@@ -9,36 +9,15 @@ output:
 ---
 
 
-```{r Rmd-init, include = FALSE}
-## The code in this chunk will be executed, will not appear in rendered .html file
-
-##  Silently sets knitr chunk options used in Rmd file
-require(knitr)
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  results = "markup",  
-  comment="#>",
-  highlight = TRUE,
-  fig.width = 12, fig.height=8, fig.path='Figs/'
-)
-
-# Silently clears Global environment
-rm(list=ls())
-
-# Create .params list  # <- !!! 
-.params <- list(.vignette_nm = "15-fit-summ"
-                ) 
-
-# Silently assign variables for later use
-.vignette_nm  <- .params$.vignette_nm   # .params refers to list defined above
-.vignette_Rmd <- paste(.vignette_nm,".Rmd", sep = "")
-.vignette_R   <- paste(.vignette_nm,".R",   sep = "")
-.vignette_html<- paste(.vignette_nm, ".html",   sep = "")
-ls()
-```
-
 # R session setup
 
+```{r vignette-nm, include=FALSE}
+.vignette_nm = "15-fit-summ"
+```
+
+```{r Rmd-global-info, include = FALSE, file = "05-global-info.R"}
+## The code executed in R script, will not appear in rendered .html file
+```
 
 ```{r Rsetup}
 library(penAFT)

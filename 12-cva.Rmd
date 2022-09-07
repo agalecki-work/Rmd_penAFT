@@ -1,50 +1,31 @@
 ---
 title: "penAFT.cva"
 author: "Anonymous"
-date: "August 7th, 2022"
+date: "September 7th, 2022"
 output: 
   html_document:
     toc: true
     number_sections: true
 ---
 
-```{r Rmd-init, include = FALSE}
-## The code in this chunk will be executed, will not appear in rendered .html file
-
-##  Silently sets knitr chunk options used in Rmd file
-require(knitr)
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  results = "markup",  
-  comment="#>",
-  highlight = TRUE,
-  fig.width = 12, fig.height=8, fig.path='Figs/'
-)
-
-# Silently clears Global environment
-rm(list=ls())
-
-# Create .params list  # <- !!! 
-.params <- list(vignette_nm = "12-cva"
-               ) 
-
-# Silently assign variables for later use
-vignette_nm  <- .params$vignette_nm   # .params refers to list defined above
-vignette_Rmd <- paste(vignette_nm,".Rmd", sep = "")
-vignette_R   <- paste(vignette_nm,".R",   sep = "")
-vignette_html<- paste(vignette_nm, ".html",   sep = "")
-```
 
 # R session setup
 
+```{r vignette-nm, include=FALSE}
+.vignette_nm = "12-cva"
+```
+
+```{r Rmd-global-info, include = FALSE, file = "05-global-info.R"}
+## The code executed in R script, will not appear in rendered .html file
+```
 
 ```{r Rsetup}
 sessionInfo()
 ```
 
 
-* This is `r vignette_nm` vignette that illustrates how to create `cva` object
-* Rmd file  `r vignette_Rmd` was executed at `r Sys.time()`
+* This is `r .vignette_nm` vignette that illustrates how to create `cva` object
+* Rmd file  `r .vignette_Rmd` was executed at `r Sys.time()`
 * Note: It takes several minutes to execute this script
 
 
@@ -81,5 +62,5 @@ Save cva object
 ```{r save-penAFT-cva}
 save(penAFTcva.en,file = "Rdata/12-cva.Rdata")
 ```
-* Rmd file  `r vignette_Rmd` completed execution at `r Sys.time()`
+* Rmd file  `r .vignette_Rmd` completed execution at `r Sys.time()`
 
